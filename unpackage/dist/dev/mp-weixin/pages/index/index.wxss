@@ -166,6 +166,7 @@ view {
 }
 .title2 {
   padding-right: 210rpx;
+  margin-right: 3%;
 }
 .bot2 {
   margin-top: 20rpx;

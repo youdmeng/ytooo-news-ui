@@ -57,8 +57,8 @@
 							<!-- 空图片占位 -->
 							<view v-else class="img-empty"></view>
 							<view :class="['bot', 'bot'+item.type]">
-								<text class="author">{{item.author}}</text>
-								<text class="time">{{item.time}}</text>
+								<text class="author">{{item.author}}  {{item.time}}</text>
+								<text class="time"></text>
 							</view>
 						</view>
 						
@@ -150,8 +150,7 @@
 			},
 			//新闻列表
 			loadNewsList(type){
-				let tabItem = this.tabBars[this.tabCurrentIndex];
-				
+				let tabItem = this.tabBars[this.tabCurrentIndex];				
 				//type add 加载更多 refresh下拉刷新
 				if(type === 'add'){
 					if(tabItem.loadMoreStatus === 2){
@@ -193,6 +192,7 @@
 							item.type = 2;
 							item.time =  this.Format(new Date(item.postdate),"hh:mm") === 'aN:aN' ? "" : this.Format(new Date(item.postdate),"hh:mm")
 							tabItem.newsList.push(item);
+							item.flow = `` +  item.article + ``;
 						})
 						//下拉刷新 关闭刷新动画
 						if(type === 'refresh'){
@@ -206,21 +206,30 @@
 						if(type === 'add'){
 							tabItem.loadMoreStatus = list.length === 0 ? 2: 0;
 						}
+					},
+					fail:() =>{
+						this.$refs.mixPulldownRefresh && this.$refs.mixPulldownRefresh.endPulldownRefresh();
+						tabItem.refreshing = false;
+						tabItem.loadMoreStatus = 2
 					}
 				});
 			},
 			//新闻详情
 			navToDetails(item){
-				let data = {
-					id: item.id,
-					title: item.title,
-					author: item.author,
-					time: item.time
-				}
+				
+				let data = item;
+				// {
+				// 	id: item.id,
+				// 	title: item.title,
+				// 	newssource: item.newssource,
+				// 	time: item.time,
+				// 	flow: item.article
+				// }
 				let url = item.videoSrc ? 'videoDetails' : 'details'; 
+				
 
 				uni.navigateTo({
-					url: `/pages/details/${url}?data=${JSON.stringify(data)}`
+					url: `/pages/details/${url}?data=` +  encodeURIComponent(JSON.stringify(data)) 
 				})
 			},
 			
@@ -491,6 +500,7 @@
 	}
 	.title2{
 		padding-right: 210upx; 
+		margin-right: 3%;
 	}
 	.bot2{
 		margin-top: 20upx;

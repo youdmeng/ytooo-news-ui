@@ -13,6 +13,7 @@
 </script>
 
 <style>
+@import '/components/feng-parse/parse.css';
 	@font-face {
 		font-family: yticon;
 		font-weight: normal;

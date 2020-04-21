@@ -5,6 +5,7 @@
 /* 边框颜色 */
 page {
   height: 100%;
+  width: 98%;
 }
 .content {
   display: -webkit-box;

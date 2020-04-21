@@ -1,205 +1,452 @@
-
+/**
+ * author: Di (微信小程序开发工程师)
+ * organization: WeAppDev(微信小程序开发论坛)(http://weappdev.com)
+ *         垂直微信小程序开发交流社区
+ *
+ * github地址: https://github.com/icindy/wxParse
+ *
+ * for: 微信小程序富文本解析
+ * detail : http://weappdev.com/t/wxparse-alpha0-1-html-markdown/184
+ */
+/**
+ * 请在全局下引入该文件，@import '/static/wxParse.css';
+ */
+.wxParse {
+	-webkit-user-select:none;
+	        user-select:none;
+	width: 100%;
+	font-family: Helvetica, "PingFangSC", 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+	color: #333;
+	line-height: 1.5;
+	font-size: 0.8em;
+	text-align:justify;/* //左右两端对齐 */
+}
+.wxParse view,.wxParse uni-view{
+	word-break: break-word;
+}
+.wxParse .p {
+	padding-bottom: 0.5em;
+	clear: both;
+	/* letter-spacing: 0;//字间距 */
+}
+.wxParse .inline {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+.wxParse .div {
+  margin: 0;
+  padding: 0;
+  display: block;
+}
+.wxParse .h1{
+  font-size: 2em;
+  line-height: 1.2em;
+  margin: 0.67em 0;
+}
+.wxParse .h2{
+  font-size: 1.5em;
+  margin: 0.83em 0;
+}
+.wxParse .h3{
+  font-size: 1.17em;
+  margin: 1em 0;
+}
+.wxParse .h4{
+  margin: 1.33em 0;
+}
+.wxParse .h5{
+  font-size: 0.83em;
+  margin: 1.67em 0;
+}
+.wxParse .h6{
+  font-size: 0.83em;
+  margin: 1.67em 0;
+}
+.wxParse .h1,
+.wxParse .h2,
+.wxParse .h3,
+.wxParse .h4,
+.wxParse .h5,
+.wxParse .h6,
+.wxParse .b,
+.wxParse .strong{
+  font-weight: bolder;
+}
+.wxParse .i,
+.wxParse .cite,
+.wxParse .em,
+.wxParse .var,
+.wxParse .address {
+  font-style: italic;
+}
+.wxParse .spaceshow{
+	  white-space: pre;
+}
+.wxParse .pre,
+.wxParse .tt,
+.wxParse .code,
+.wxParse .kbd,
+.wxParse .samp {
+  font-family: monospace;
+}
+.wxParse .pre {
+  overflow: auto;
+  background: #f5f5f5;
+  padding: 16rpx;
+  white-space: pre;
+  margin: 1em 0rpx;
+  font-size: 24rpx;
+}
+.wxParse .code {
+	overflow: auto;
+	padding: 16rpx;
+	white-space: pre;
+	margin: 1em 0rpx;
+	background: #f5f5f5;
+	font-size: 24rpx;
+}
+.wxParse .big {
+  font-size: 1.17em;
+}
+.wxParse .small,
+.wxParse .sub,
+.wxParse .sup {
+  font-size: 0.83em;
+}
+.wxParse .sub {
+  vertical-align: sub;
+}
+.wxParse .sup {
+  vertical-align: super;
+}
+.wxParse .s,
+.wxParse .strike,
+.wxParse .del {
+  text-decoration: line-through;
+}
+.wxParse .strong,
+.wxParse .text,
+.wxParse .span,
+.wxParse .s {
+  display: inline;
+}
+.wxParse .a {
+  color: deepskyblue;
+}
+.wxParse .video {
+  text-align: center;
+  margin: 22rpx 0;
+}
+.wxParse .video-video {
+  width: 100%;
+}
+.wxParse .uni-image{
+	max-width: 100%;
+}
+.wxParse .img {
+  display: block;
+  max-width: 100%;
+  margin-bottom: 0em;/* //与p标签底部padding同时修改 */
+  overflow: hidden;
+}
+.wxParse .blockquote {
+  margin: 10rpx 0;
+  padding: 22rpx 0 22rpx 22rpx;
+  font-family: Courier, Calibri, "宋体";
+  background: #f5f5f5;
+  border-left: 6rpx solid #dbdbdb;
+}
+.wxParse .blockquote .p {
+  margin: 0;
+}
+.wxParse .ul, .wxParse .ol {
+  display: block;
+  margin: 1em 0;
+  padding-left: 2em;
+}
+.wxParse .ol {
+  list-style-type: disc;
+}
+.wxParse .ol {
+  list-style-type: decimal;
+}
+.wxParse .ol>weixin-parse-template,.wxParse .ul>weixin-parse-template {
+  display: list-item;
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+          align-items: baseline;
+  text-align: match-parent;
+}
+.wxParse .ol>.li,.wxParse .ul>.li {
+  display: list-item;
+  -webkit-box-align: baseline;
+  -webkit-align-items: baseline;
+          align-items: baseline;
+  text-align: match-parent;
+}
+.wxParse .ul .ul, .wxParse .ol .ul {
+  list-style-type: circle;
+}
+.wxParse .ol .ol .ul, .wxParse .ol .ul .ul, .wxParse .ul .ol .ul, .wxParse .ul .ul .ul {
+    list-style-type: square;
+}
+.wxParse .u {
+  text-decoration: underline;
+}
+.wxParse .hide {
+  display: none;
+}
+.wxParse .del {
+  display: inline;
+}
+.wxParse .figure {
+  overflow: hidden;
+}
+.wxParse .tablebox{
+	overflow: auto;
+	background-color: #f5f5f5;
+	background: #f5f5f5;
+	font-size: 13px;
+	padding: 8px;
+}
+.wxParse .table .table,.wxParse .table{
+	border-collapse:collapse;
+	box-sizing: border-box;
+	/* 内边框 */
+	/* width: 100%; */
+	overflow: auto;
+	white-space: pre;
+}
+.wxParse .tbody{
+	border-collapse:collapse;
+	box-sizing: border-box;
+	/* 内边框 */
+	border: 1px solid #dadada;
+}
+.wxParse .table  .thead, .wxParse  .table .tfoot, .wxParse  .table .th{
+	border-collapse:collapse;
+	box-sizing: border-box;
+	background: #ececec;
+	font-weight: 40;
+}
+.wxParse  .table .tr {
+	border-collapse:collapse;
+	box-sizing: border-box;
+	/* border: 2px solid #F0AD4E; */
+	overflow:auto;
+}
+.wxParse  .table .th,
+.wxParse  .table .td{
+	border-collapse:collapse;
+	box-sizing: border-box;
+	border: 2rpx solid #dadada;
+	overflow:auto;
+}
+.wxParse .audio, .wxParse .uni-audio-default{
+	display: block;
+}
 @font-face {
-	font-family: yticon;
-	font-weight: normal;
-	font-style: normal;
-	src: url('https://at.alicdn.com/t/font_1078604_3mrhac2o3oi.ttf') format('truetype');
+		font-family: yticon;
+		font-weight: normal;
+		font-style: normal;
+		src: url('https://at.alicdn.com/t/font_1078604_3mrhac2o3oi.ttf') format('truetype');
 }
 .yticon {
-	font-family: "yticon" !important;
-	font-size: 16px;
-	font-style: normal;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+		font-family: "yticon" !important;
+		font-size: 16px;
+		font-style: normal;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 }
 .icon-huifu:before {
-  content: "\e68b";
+	  content: "\e68b";
 }
 .icon-comment:before {
-  content: "\e64f";
+	  content: "\e64f";
 }
 .icon-dianzan-ash:before {
-  content: "\e617";
+	  content: "\e617";
 }
 .icon-iconfontshanchu1:before {
-	content: "\e619";
+		content: "\e619";
 }
 .icon-iconfontweixin:before {
-	content: "\e611";
+		content: "\e611";
 }
 .icon-shang:before {
-	content: "\e624";
+		content: "\e624";
 }
 .icon-shouye:before {
-	content: "\e626";
+		content: "\e626";
 }
 .icon-shanchu4:before {
-	content: "\e622";
+		content: "\e622";
 }
 .icon-xiaoxi:before {
-	content: "\e618";
+		content: "\e618";
 }
 .icon-jiantour-copy:before {
-	content: "\e600";
+		content: "\e600";
 }
 .icon-fenxiang2:before {
-	content: "\e61e";
+		content: "\e61e";
 }
 .icon-pingjia:before {
-	content: "\e67b";
+		content: "\e67b";
 }
 .icon-daifukuan:before {
-	content: "\e68f";
+		content: "\e68f";
 }
 .icon-pinglun-copy:before {
-	content: "\e612";
+		content: "\e612";
 }
 .icon-shoucang:before {
-	content: "\e645";
+		content: "\e645";
 }
 .icon-xuanzhong2:before {
-	content: "\e62f";
+		content: "\e62f";
 }
 .icon-icon-test:before {
-	content: "\e60c";
+		content: "\e60c";
 }
 .icon-bianji:before {
-	content: "\e646";
+		content: "\e646";
 }
 .icon-zuoshang:before {
-	content: "\e613";
+		content: "\e613";
 }
 .icon-jia2:before {
-	content: "\e60a";
+		content: "\e60a";
 }
 .icon-sousuo:before {
-	content: "\e7ce";
+		content: "\e7ce";
 }
 .icon-arrow-fine-up:before {
-	content: "\e601";
+		content: "\e601";
 }
 .icon-hot:before {
-	content: "\e60e";
+		content: "\e60e";
 }
 .icon-lishijilu:before {
-	content: "\e6b9";
+		content: "\e6b9";
 }
 .icon-xiatubiao--copy:before {
-	content: "\e608";
+		content: "\e608";
 }
 .icon-shoucang_xuanzhongzhuangtai:before {
-	content: "\e6a9";
+		content: "\e6a9";
 }
 .icon-jia1:before {
-	content: "\e61c";
+		content: "\e61c";
 }
 .icon-bangzhu1:before {
-	content: "\e63d";
+		content: "\e63d";
 }
 .icon-arrow-left-bottom:before {
-	content: "\e602";
+		content: "\e602";
 }
 .icon-arrow-right-bottom:before {
-	content: "\e603";
+		content: "\e603";
 }
 .icon-arrow-left-top:before {
-	content: "\e604";
+		content: "\e604";
 }
 .icon-icon--:before {
-	content: "\e744";
+		content: "\e744";
 }
 .icon-zuojiantou-up:before {
-	content: "\e605";
+		content: "\e605";
 }
 .icon-xia:before {
-	content: "\e62d";
+		content: "\e62d";
 }
 .icon--jianhao:before {
-	content: "\e60b";
+		content: "\e60b";
 }
 .icon-Group-:before {
-	content: "\e688";
+		content: "\e688";
 }
 .icon-you:before {
-	content: "\e606";
+		content: "\e606";
 }
 .icon-forward:before {
-	content: "\e607";
+		content: "\e607";
 }
 .icon-tuijian:before {
-	content: "\e610";
+		content: "\e610";
 }
 .icon-bangzhu:before {
-	content: "\e679";
+		content: "\e679";
 }
 .icon-share:before {
-	content: "\e656";
+		content: "\e656";
 }
 .icon-shezhi1:before {
-	content: "\e61d";
+		content: "\e61d";
 }
 .icon-fork:before {
-	content: "\e61b";
+		content: "\e61b";
 }
 .icon-iLinkapp-:before {
-	content: "\e654";
+		content: "\e654";
 }
 .icon-saomiao:before {
-	content: "\e60d";
+		content: "\e60d";
 }
 .icon-shezhi:before {
-	content: "\e60f";
+		content: "\e60f";
 }
 .icon-shouhoutuikuan:before {
-	content: "\e631";
+		content: "\e631";
 }
 .icon-gouwuche:before {
-	content: "\e609";
+		content: "\e609";
 }
 .icon-dizhi:before {
-	content: "\e614";
+		content: "\e614";
 }
 .icon-xingxing:before {
-	content: "\e70b";
+		content: "\e70b";
 }
 .icon-zuanshi:before {
-	content: "\e615";
+		content: "\e615";
 }
 .icon-zuo:before {
-	content: "\e63c";
+		content: "\e63c";
 }
 .icon-shoucang2:before {
-	content: "\e62e";
+		content: "\e62e";
 }
 .icon-yishouhuo:before {
-	content: "\e71a";
+		content: "\e71a";
 }
 view,
-scroll-view,
-swiper,
-swiper-item,
-cover-view,
-cover-image,
-icon,
-text,
-rich-text,
-progress,
-button,
-checkbox,
-form,
-input,
-label,
-radio,
-slider,
-switch,
-textarea,
-navigator,
-audio,
-camera,
-image,
-video {
-	box-sizing: border-box;
+	scroll-view,
+	swiper,
+	swiper-item,
+	cover-view,
+	cover-image,
+	icon,
+	text,
+	rich-text,
+	progress,
+	button,
+	checkbox,
+	form,
+	input,
+	label,
+	radio,
+	slider,
+	switch,
+	textarea,
+	navigator,
+	audio,
+	camera,
+	image,
+	video {
+		box-sizing: border-box;
 }
-
-
+	
+	
 
