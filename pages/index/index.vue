@@ -150,7 +150,7 @@
 			},
 			//新闻列表
 			loadNewsList(type){
-				let tabItem = this.tabBars[this.tabCurrentIndex];				
+				let tabItem = this.tabBars[this.tabCurrentIndex];
 				//type add 加载更多 refresh下拉刷新
 				if(type === 'add'){
 					if(tabItem.loadMoreStatus === 2){
@@ -166,7 +166,7 @@
 				uni.request({
 					url: common.baseUrl + '/newsRest/list', 
 					data: {
-						t: 1,
+						t: tabItem.id,
 						p: this.page
 					},
 					method: 'GET',
@@ -183,6 +183,9 @@
 						if(type === 'refresh'){
 							tabItem.newsList = []; //刷新前清空数组
 						}
+						
+						tabItem.loadMoreStatus = list === null || list.length === 0  ? 2: 0;
+						
 						list.forEach(item=>{
 							item.id = parseInt(Math.random() * 10000);
 								//配置消息来源
@@ -200,7 +203,7 @@
 							// #ifdef APP-PLUS
 							tabItem.refreshing = false;
 							// #endif
-							tabItem.loadMoreStatus = 0;
+							tabItem.loadMoreStatus = list === null || list.length === 0  ? 2: 0;
 						}
 						//上滑加载 处理状态
 						if(type === 'add'){

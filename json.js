@@ -2,7 +2,18 @@ const tabList = [{
 	name: 'IT',
 	id: '1',
 	type: 1
-}];
+},
+{
+	name: '国际新闻',
+	id: '2',
+	type: 1
+},
+{
+	name: '财经',
+	id: '3',
+	type: 1
+}
+];
 const newsList = [	{
 	id: 1,
 	title: '别再玩手机了，赶紧学前端，晚一年能少掉5根头发',
