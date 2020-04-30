@@ -6,13 +6,13 @@
 					<text class="title">{{detailData.title}}</text>
 					<view class="introduce">
 						<text>{{detailData.newssource}}</text>
-						<text>105阅读</text>
+						<!-- <text>105阅读</text> -->
 						<text>{{detailData.time}}</text>
 					</view>
 					<u-parse :content="detailData.flow" @navigate="navigate"></u-parse>
 					<p></p>
 					<p></p>
-					<view class="actions" v-show="loading === false">
+					<!-- <view class="actions" v-show="loading === false">
 						<view class="action-item">
 							<text class="yticon icon-dianzan-ash"></text>
 							<text>75</text>
@@ -29,15 +29,16 @@
 							<text class="yticon icon-shoucang active"></text>
 							<text>收藏</text>
 						</view>
-					</view>
+					</view> -->
 				</view>
 				
 				<view class="container" v-show="loading === false">
 					<!-- 推荐 -->
-					<view class="s-header">
+					<!-- <view class="s-header">
 						<text class="tit">相关推荐</text>
 					</view>
 					<view class="rec-section" v-for="item in newsList" :key="item.id">
+						{{item}}
 						<view class="rec-item">
 							<view class="left">
 								<text class="title">{{item.title}}</text>
@@ -50,7 +51,7 @@
 								<image class="img" :src="item.images[0]" mode="aspectFill"></image>
 							</view>
 						</view>
-					</view>
+					</view> -->
 					
 					<!-- 评论 -->
 					<view class="s-header">
@@ -60,15 +61,15 @@
 						<view  v-for="(item, index) in evaList" :key="index"
 							class="eva-item"
 						>
-							<image :src="item.src" mode="aspectFill"></image>
+							<!-- <image :src="item.src" mode="aspectFill"></image> -->
 							<view class="eva-right">
-								<text>{{item.nickname}}</text>
+								<text>{{item.name}}</text>
 								<text>{{item.time}}</text>
 								<view class="zan-box">
-									<text>{{item.zan}}</text>
+									<text>{{item.detail}}</text>
 									<text class="yticon icon-shoucang"></text>
 								</view>
-								<text class="content">{{item.content}}</text>
+								<text class="content">{{item.detail}}</text>
 							</view>
 						</view>
 					</view>
@@ -86,9 +87,10 @@
 					type="text" 
 					placeholder="点评一下把.." 
 					placeholder-style="color:#adb1b9;"
+					v-model="comment.detail"
 				/>
 			</view>
-			<text class="confirm-btn">提交</text>
+			<text class="confirm-btn" @click="commitComment()">提交</text>
 		</view>
 	</view>
 </template>
@@ -97,6 +99,7 @@
 	import json from '@/json';
 	import mixLoading from '@/components/mix-loading/mix-loading';
 	import uParse from "@/components/feng-parse/parse.vue"
+	import common from '@/common/index.js';
 	export default {
 		components: {
 			mixLoading,
@@ -108,24 +111,33 @@
 				detailData: {},
 				newsList: [],
 				evaList: [],
+				comment:{}
 			}
 		},
 		onLoad(options){
 			this.detailData = JSON.parse(decodeURIComponent(options.data));
-			this.loadNewsList();
 			this.loadEvaList();
+			this.loadComment();
 			this.loading = false;
 			
 			
 		},
 		methods: {
 			//获取推荐列表
+			loadComment() {
+				this.comment = {
+					detail: '',
+					name: '网友',
+					newsId: this.detailData.newsid,
+					sourceType: this.detailData.sourceType
+				}
+			},
 			async loadNewsList(){
 				uni.request({
 					url: common.baseUrl + '/newsRest/list', 
 					data: {
-						t: tabItem.id,
-						p: this.page
+						t: this.tabItem.id,
+						p: 1
 					},
 					method: 'GET',
 					header: {
@@ -166,7 +178,50 @@
 			},
 			//获取评论列表
 			async loadEvaList(){
-				this.evaList = await json.evaList;
+				// this.evaList = await json.evaList;
+				uni.request({
+					url: common.baseUrl + '/newsRest/gc', 
+					data: {
+						newsId: this.detailData.newsid,
+						sourceType: this.detailData.sourceType
+					},
+					method: 'GET',
+					header: {
+						'content-type': 'application/json',
+						'Access-Control-Allow-Origin': '*', //自定义请求头信息
+						"Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+						"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+					},
+					success: (res) => {						
+						this.evaList  = res.data.data;
+						
+					},
+					fail:() =>{
+						this.evaList = []
+					}
+				});
+			},
+			//发送评论
+			async commitComment(){
+				console.log(this.detailData);
+				uni.request({
+					url: common.baseUrl + '/newsRest/c', 
+					data: this.comment,
+					method: 'POST',
+					header: {
+						'content-type': 'application/json',
+						'Access-Control-Allow-Origin': '*', //自定义请求头信息
+						"Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT",
+						"Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+					},
+					success: (res) => {						
+						this.loadEvaList();
+						this.comment.detail =''
+					},
+					fail:() =>{
+						this.evaList = []
+					}
+				});
 			}
 		}
 	}
