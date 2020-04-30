@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "详情",
-  "usingComponents": {
-    "mix-loading": "/components/mix-loading/mix-loading",
-    "u-parse": "/components/feng-parse/parse"
-  }
-}

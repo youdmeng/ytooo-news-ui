@@ -1,6 +1,6 @@
 import json from '@/json'
 export default{
-	baseUrl : "http://www.ytooo.ml:8888/ytooo-news/",
+	baseUrl : "http://www.ytooonews.ml:28001/ytooo-news/",
 	data: {
 		tabBars: [],
 		tabCurrentIndex: 0,

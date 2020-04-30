@@ -57,7 +57,7 @@
 							<!-- 空图片占位 -->
 							<view v-else class="img-empty"></view>
 							<view :class="['bot', 'bot'+item.type]">
-								<text class="author">{{item.author}}  {{item.time}}</text>
+								<text class="author">{{item.author}} {{item.time}}</text>
 								<text class="time"></text>
 							</view>
 						</view>
@@ -188,14 +188,13 @@
 						
 						list.forEach(item=>{
 							item.id = parseInt(Math.random() * 10000);
-								//配置消息来源
-							if (item.sourceType === 1){
-								item.author = 'IT之家';
-							}
+							//配置消息来源
+							item.author = item.newssource;
 							item.type = 2;
-							item.time =  this.Format(new Date(item.postdate),"hh:mm") === 'aN:aN' ? "" : this.Format(new Date(item.postdate),"hh:mm")
-							tabItem.newsList.push(item);
+							let time = this.stringToDate(item.postdate);							
+							item.time =  this.format(time,"hh:mm") === 'aN:aN' ? "" : this.format(time,"hh:mm")
 							item.flow = `` +  item.article + ``;
+							tabItem.newsList.push(item);
 						})
 						//下拉刷新 关闭刷新动画
 						if(type === 'refresh'){
@@ -300,7 +299,7 @@
 					//第一次切换tab，动画结束后需要加载数据
 					let tabItem = this.tabBars[this.tabCurrentIndex];
 					if(this.tabCurrentIndex !== 0 && tabItem.loaded !== true){
-						this.loadNewsList('add');
+						this.loadNewsList('refresh');
 						tabItem.loaded = true;
 					}
 				}, 300)
@@ -319,7 +318,20 @@
 					}).exec();
 				});
 			},
-			Format (time,fmt) {
+			stringToDate (str){
+				var tempStrs = str.split(" ");
+				var dateStrs = tempStrs[0].split("-");
+				var year = parseInt(dateStrs[0], 10);
+				var month = parseInt(dateStrs[1], 10) - 1;
+				var day = parseInt(dateStrs[2], 10);
+				var timeStrs = tempStrs[1].split(":");
+				var hour = parseInt(timeStrs [0], 10);
+				var minute = parseInt(timeStrs[1], 10);
+				var second = parseInt(timeStrs[2], 10);
+				var date = new Date(year, month, day, hour, minute, second);
+				return date;
+			},
+			format (time,fmt) {
 				var o = {
 				"y+": time.getFullYear(),
 				"M+": time.getMonth() + 1,                 //月份
@@ -329,7 +341,7 @@
 				"s+": time.getSeconds(),                 //秒
 				"q+": Math.floor((time.getMonth() + 3) / 3), //季度
 				"S+": time.getMilliseconds()             //毫秒
-				};
+				};				
 				for (var k in o) {
 				if (new RegExp("(" + k + ")").test(fmt)){
 					if(k == "y+"){
